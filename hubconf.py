@@ -36,6 +36,10 @@ _AVES_URLS = {
 }
 
 
+def aves_core(**kwargs):
+    return AvesModel.from_hub(_AVES_CORE)
+
+
 # Heavily based on https://github.com/pytorch/pytorch/blob/1eba9b3aa3c43f86f4a2c807ac8e12c4a7767340/torch/hub.py#L803
 # Infact, not sure why this isn't already a utility function?..
 def _fetch_aux_file_from_url(
