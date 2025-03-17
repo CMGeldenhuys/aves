@@ -14,6 +14,19 @@ Comprehensive experiments with a suite of classification and detection tasks (fr
 
 See [our paper](https://arxiv.org/abs/2210.14493) for more details.
 
+## Load using Torch Hub
+
+``` python
+import torch
+
+model = torch.hub.load('CMGeldenhuys/aves:torchhub', 'aves_core')
+model = model.eval()
+
+audio = torch.rand(1, 100_000)
+with torch.inference_mode():
+    embedding = model(audio)
+```
+
 ## How to use AVES
 
 Create a conda environment by running, for example:
