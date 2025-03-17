@@ -66,22 +66,6 @@ def _fetch_aux_file_from_url(
     return cached_file
 
 
-# TODO make function general for all AVES models
-def aves_core(*, progress=True, **kwargs):
-    config_url, model_url = _AVES_URLS[_AVES_CORE]
-
-    config_file = _fetch_aux_file_from_url(config_url, progress=progress)
-    config = _load_config(config_file)
-
-    state_dict = load_state_dict_from_url(model_url, progress=progress)
-
-    inner_model = wav2vec2_model(**config, aux_num_out=None)
-    inner_model.load_state_dict(state_dict)
-
-    aves_model = AvesModel(config, inner_model, **kwargs)
-    return aves_model
-
-
 # From README
 def _load_config(config_path):
     with open(config_path, "r") as ff:
@@ -98,6 +82,21 @@ class AvesModel(Module):
         self.config = config
         self.model = model
         model.extract_features
+
+    @classmethod
+    def from_hub(cls, model_name, *, progress=True, **kwargs):
+        config_url, model_url = _AVES_URLS[model_name]
+
+        config_file = _fetch_aux_file_from_url(config_url, progress=progress)
+        config = _load_config(config_file)
+
+        state_dict = load_state_dict_from_url(model_url, progress=progress)
+
+        inner_model = wav2vec2_model(**config, aux_num_out=None)
+        inner_model.load_state_dict(state_dict)
+
+        aves_model = cls(config, inner_model, **kwargs)
+        return aves_model
 
     def extract_features(self, X: Tensor) -> Tuple[List[Tensor], Tensor | None]:
         return self.model.extract_features(X)
