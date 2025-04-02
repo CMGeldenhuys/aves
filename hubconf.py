@@ -19,13 +19,23 @@ _AVES_BIO = "aves-base-bio"
 _AVES_NONBIO = "aves-base-nonbio"
 _AVES_ALL = "aves-base-all"
 
+_BIRDAVES_BIOX_BASE = "birdaves-biox-base"
+_BIRDAVES_BIOX_LARGE = "birdaves-biox-large"
+_BIRDAVES_BIOXN_LARGE = "birdaves-bioxn-large"
+
 
 def _config_url(model):
-    return f"https://storage.googleapis.com/esp-public-files/ported_aves/{model}.torchaudio.model_config.json"
+    if "bird" in model:
+        return f"https://storage.googleapis.com/esp-public-files/birdaves/{model}.torchaudio.model_config.json"
+    if "aves" in model:
+        return f"https://storage.googleapis.com/esp-public-files/ported_aves/{model}.torchaudio.model_config.json"
 
 
 def _model_url(model):
-    return f"https://storage.googleapis.com/esp-public-files/ported_aves/{model}.torchaudio.pt"
+    if "bird" in model:
+        return f"https://storage.googleapis.com/esp-public-files/birdaves/{model}.torchaudio.pt"
+    if "aves" in model:
+        return f"https://storage.googleapis.com/esp-public-files/ported_aves/{model}.torchaudio.pt"
 
 
 def _get_url(model):
@@ -46,6 +56,18 @@ def aves_nonbio(**kwargs):
 
 def aves_all(**kwargs):
     return AvesModel.from_hub(_AVES_ALL, **kwargs)
+
+
+def birdaves_biox(**kwargs):
+    return AvesModel.from_hub(_BIRDAVES_BIOX_BASE, **kwargs)
+
+
+def birdaves_biox_large(**kwargs):
+    return AvesModel.from_hub(_BIRDAVES_BIOX_LARGE, **kwargs)
+
+
+def birdaves_bioxn_large(**kwargs):
+    return AvesModel.from_hub(_BIRDAVES_BIOXN_LARGE, **kwargs)
 
 
 # Heavily based on https://github.com/pytorch/pytorch/blob/1eba9b3aa3c43f86f4a2c807ac8e12c4a7767340/torch/hub.py#L803
