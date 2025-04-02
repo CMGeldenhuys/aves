@@ -28,12 +28,8 @@ def _model_url(model):
     return f"https://storage.googleapis.com/esp-public-files/ported_aves/{model}.torchaudio.pt"
 
 
-_AVES_URLS = {
-    _AVES_CORE: (_config_url(_AVES_CORE), _model_url(_AVES_CORE)),
-    _AVES_BIO: (_config_url(_AVES_BIO), _model_url(_AVES_BIO)),
-    _AVES_NONBIO: (_config_url(_AVES_NONBIO), _model_url(_AVES_NONBIO)),
-    _AVES_ALL: (_config_url(_AVES_ALL), _model_url(_AVES_ALL)),
-}
+def _get_url(model):
+    return _config_url(model), _model_url(model)
 
 
 def aves_core(**kwargs):
@@ -101,7 +97,7 @@ class AvesModel(Module):
 
     @classmethod
     def from_hub(cls, model_name, *, progress=True, **kwargs):
-        config_url, model_url = _AVES_URLS[model_name]
+        config_url, model_url = _get_url(model_name)
 
         config_file = _fetch_aux_file_from_url(config_url, progress=progress)
         config = _load_config(config_file)
