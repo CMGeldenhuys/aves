@@ -37,19 +37,19 @@ _AVES_URLS = {
 
 
 def aves_core(**kwargs):
-    return AvesModel.from_hub(_AVES_CORE)
+    return AvesModel.from_hub(_AVES_CORE, **kwargs)
 
 
 def aves_bio(**kwargs):
-    return AvesModel.from_hub(_AVES_BIO)
+    return AvesModel.from_hub(_AVES_BIO, **kwargs)
 
 
 def aves_nonbio(**kwargs):
-    return AvesModel.from_hub(_AVES_NONBIO)
+    return AvesModel.from_hub(_AVES_NONBIO, **kwargs)
 
 
 def aves_all(**kwargs):
-    return AvesModel.from_hub(_AVES_ALL)
+    return AvesModel.from_hub(_AVES_ALL, **kwargs)
 
 
 # Heavily based on https://github.com/pytorch/pytorch/blob/1eba9b3aa3c43f86f4a2c807ac8e12c4a7767340/torch/hub.py#L803
